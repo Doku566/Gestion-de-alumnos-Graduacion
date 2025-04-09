@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Principal</title>
+    <!-- Bootstrap CSS local -->
+    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #940606;
+        }
+        h1 {
+            color: #ffffff; /* Guindo */
+            margin-top: 20px;
+        }
+        .menu-container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background: rgb(88, 7, 7);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .menu-item {
+            background-color: #6b0303; /* Guindo */
+            color: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            text-decoration: none; /* Elimina el subrayado */
+            transition: transform 0.3s, background-color 0.3s;
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .menu-item:hover {
+            background-color: #a57f2c; /* Verde oscuro */
+            transform: scale(1.05); /* Efecto de aumento */
+        }
+        .menu-icon {
+            width: 80px; /* Tamaño de las imágenes */
+            margin-bottom: 5px;
+        }
+        .menu-title {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .menu-description {
+            font-size: 0.85rem;
+            color: #f8d7da; /* Blanco suave */
+        }
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #ffffff; /* Guindo */
+            background-color: #da1414; /* Fondo suave */
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        /* Para eliminar el subrayado de los enlaces */
+        a.menu-item {
+            text-decoration: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-container text-center">
+        <h1>Menú Principal</h1>
+        <div class="row mt-4">
+            <!-- Fila 1 -->
+            <div class="col-4 mb-3">
+                <a href="buscar_estudiante.html" class="menu-item">
+                    <img src="img/Buscar-D3.png" alt="Buscar y Asignar Código" class="menu-icon">
+                    <span class="menu-title">Buscar y Asignar</span>
+                    <p class="menu-description">Asignar código a estudiantes.</p>
+                </a>
+            </div>
+            <div class="col-4 mb-3">
+                <a href="buscar_por_codigo.html" class="menu-item">
+                    <img src="img/Barras-D4.png" alt="Buscar por Código" class="menu-icon">
+                    <span class="menu-title">Buscar por Código</span>
+                    <p class="menu-description">Consulta estudiantes por código.</p>
+                </a>
+            </div>
+            <div class="col-4 mb-3">
+                <a href="ver_asistencia.html" class="menu-item">
+                    <img src="img/Grupo-D2.png" alt="Ver Asistencia" class="menu-icon">
+                    <span class="menu-title">Ver Asistencia</span>
+                    <p class="menu-description">Revisa asistencia por grupo.</p>
+                </a>
+            </div>
+            <!-- Fila 2 -->
+            <div class="col-4 mb-3">
+                <a href="Alumnos_de_Ingreso_Tardio.html" class="menu-item">
+                    <img src="img/Tarde-D2.png" alt="Alumnos Tardíos" class="menu-icon">
+                    <span class="menu-title">Alumnos Tardíos</span>
+                    <p class="menu-description">Registra alumnos tardíos.</p>
+                </a>
+            </div>
+            <div class="col-4 mb-3">
+                <a href="Presentador.html" class="menu-item">
+                    <img src="img/Presentador-D2.png" alt="Presentador" class="menu-icon">
+                    <span class="menu-title">Presentador</span>
+                    <p class="menu-description">Opciones de presentación.</p>
+                </a>
+            </div>
+            <div class="col-4 mb-3">
+                <a href="Doc.html" class="menu-item">
+                    <img src="img/Actualizar-D2.png" alt="Documentación" class="menu-icon">
+                    <span class="menu-title">Documentación</span>
+                    <p class="menu-description">Consulta la documentación.</p>
+                </a>
+            </div>
+            <!-- Fila 3 - Nueva sección Correciones -->
+           <!-- <div class="col-4 mb-3">
+                <a href="correcciones.html" class="menu-item">
+                    <img src="img/Corregir.png" alt="Correciones" class="menu-icon">
+                    <span class="menu-title">Correciones</span>
+                    <p class="menu-description">Consulta correcciones necesarias.</p>
+                </a>
+            </div>
+        </div>-->
+
+    </div>
+
+    <footer>
+        <p>Todos los derechos reservados &copy; Domingo González Hernández</p>
+    </footer>
+
+    <!-- Bootstrap JS local (opcional) -->
+    <script src="bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

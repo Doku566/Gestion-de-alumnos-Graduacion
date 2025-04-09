@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar y Asignar Código</title>
+    <link href="bootstrap-5.3.3-dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        h1 {
+            margin-bottom: 20px;
+            color: #8B0000;
+        }
+        .table thead th {
+            background-color: #8B0000;
+            color: white;
+        }
+        .btn-primary {
+            background-color: #a57f2c;
+            border-color: #8b6a22;
+        }
+        .btn-primary:hover {
+            background-color: #775917;
+        }
+        .btn-assigned {
+            background-color: #26ee54 !important; /* Verde para el botón asignado */
+            color: white;
+            border-color: #10ee44;
+            cursor: not-allowed;
+        }
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #A70000;
+            background-color: #f8d7da;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="text-center">Buscar Estudiante</h1>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" id="busqueda" placeholder="Buscar por matrícula o nombre completo" onkeydown="if(event.key === 'Enter') buscarEstudiantes()">
+        <div class="input-group-append">
+            <button class="btn btn-primary" onclick="buscarEstudiantes()">Buscar</button>
+        </div>
+    </div>
+    <table class="table table-bordered table-striped" id="resultados">
+        <thead>
+            <tr>
+                <th>Matrícula</th>
+                <th>Nombre Completo</th>
+                <th>Carrera</th>
+                <th>Código</th>
+                <th>Grupo</th>
+                <th>Asistencia</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+<footer>
+    <p>Todos los derechos reservados &copy; Domingo González Hernández</p>
+</footer>
+
+<script>
+    async function buscarEstudiantes() {
+        const busqueda = document.getElementById('busqueda').value;
+        try {
+            const response = await fetch(`index.php?buscar=${encodeURIComponent(busqueda)}`);
+            const estudiantes = await response.json();
+            const tbody = document.querySelector('#resultados tbody');
+            tbody.innerHTML = '';
+
+            estudiantes.forEach(estudiante => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${estudiante.matricula}</td>
+                    <td>${estudiante.nombre_completo}</td>
+                    <td>${estudiante.carrera}</td>
+                    <td>${estudiante.codigo || 'No asignado'}</td>
+                    <td>${estudiante.grupo}</td>
+                    <td>${estudiante.asistencia ? 'Presente' : 'Ausente'}</td>
+                    <td>${estudiante.codigo ? 
+                        '<button class="btn btn-assigned" disabled>Código asignado</button>' : 
+                        `<button class="btn btn-warning" onclick="asignarCodigo('${estudiante.matricula}')">Asignar Código</button>`
+                    }</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('busqueda').value = '';
+        } catch (error) {
+            console.error('Error buscando estudiantes:', error);
+        }
+    }
+
+    async function asignarCodigo(matricula) {
+        const codigo = prompt('Ingrese el código para asignar:');
+
+        if (codigo) {
+            try {
+                const response = await fetch(`index.php?verificar_codigo=${encodeURIComponent(codigo)}&matricula=${encodeURIComponent(matricula)}`);
+                const result = await response.json();
+
+                if (result.existe) {
+                    alert('Este código ya ha sido asignado a otro estudiante. Intente con un código diferente.');
+                    return;
+                }
+
+                if (result.asignado) {
+                    alert('Este estudiante ya tiene un código asignado.');
+                    return;
+                }
+
+                const asignarResponse = await fetch(`index.php?asignar_codigo=${matricula}&codigo=${encodeURIComponent(codigo)}`);
+                const asignarResult = await asignarResponse.json();
+                alert(asignarResult.mensaje);
+
+                buscarEstudiantes();
+            } catch (error) {
+                console.error('Error asignando el código:', error);
+            }
+        }
+    }
+</script>
+
+<script src="bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

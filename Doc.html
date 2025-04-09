@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación del Proyecto: Gestión de Asistencia y Asignación de Código</title>
+    <!-- Enlace a Bootstrap local -->
+    <link href="bootstrap-5.3.3-dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        h1, h2, h3 {
+            color: #8B0000; /* Guindo */
+        }
+        pre {
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="text-center">Documentación del Proyecto: Gestión de Asistencia y Asignación de Código</h1>
+        
+        <h2>Descripción del Proyecto</h2>
+        <p>
+            El sistema de gestión de asistencia permite a los usuarios agregar nuevos alumnos y ver la asistencia de los mismos por grupo. Este sistema se ha desarrollado utilizando HTML, CSS, JavaScript y PHP, y utiliza Bootstrap para la interfaz de usuario. También se ha añadido la funcionalidad de búsqueda por código de alumno, que permite encontrar rápidamente la información de un estudiante específico. Además, se han implementado websockets para mejorar la comunicación en tiempo real entre el servidor y los clientes.
+        </p>
+
+        <h2>Estructura del Proyecto</h2>
+        <pre>
+/Gestion de Personas
+├── css
+│   └── bootstrap.min.css
+├── js
+├── index.php
+├── ver_asistencia.html
+├── agregar_alumno.html
+├── presentador.html
+├── index.html
+├── buscar_estudiante.html
+└── buscar_por_codigo.html
+        </pre>
+
+        <h2>Requisitos</h2>
+        <ul>
+            <li>Un servidor web que soporte PHP (como Apache o Nginx).</li>
+            <li>Un entorno de desarrollo para pruebas (por ejemplo, XAMPP, WAMP o MAMP).</li>
+            <li>Conexión a una base de datos (MySQL o similar) para almacenar información de alumnos y asistencia.</li>
+            <li>Extensión de PHP para websockets (como Ratchet o Swoole).</li>
+        </ul>
+
+        <h2>Instalación</h2>
+        <ol>
+            <li><strong>Descargar y configurar el servidor:</strong>
+                <p>Asegúrate de tener un servidor web instalado y en funcionamiento. Coloca el proyecto en la carpeta de documentos del servidor (por ejemplo, <code>htdocs</code> en XAMPP).</p>
+            </li>
+            <li><strong>Crear base de datos:</strong>
+                <p>Crea una base de datos en MySQL para almacenar la información de los alumnos. Crea una tabla para los alumnos con los siguientes campos:</p>
+                <pre>
+- matricula
+- nombre_completo
+- carrera
+- grupo
+- codigo (opcional)
+- asistencia (booleano para indicar presencia)
+                </pre>
+            </li>
+            <li><strong>Configurar conexión a la base de datos:</strong>
+                <p>En <code>index.php</code>, configura los parámetros de conexión a tu base de datos.</p>
+            </li>
+            <li><strong>Configurar websockets:</strong>
+                <p>Asegúrate de tener la extensión de websockets instalada y configurada correctamente en tu entorno. Esto permitirá la comunicación en tiempo real.</p>
+            </li>
+        </ol>
+
+        <h2>Funcionalidades</h2>
+        <h3>Agregar Alumnos Nuevos</h3>
+        <p>
+            La página <code>agregar_alumno.html</code> permite a los usuarios ingresar la matrícula, nombre completo, carrera, grupo y un código de barras opcional para cada nuevo alumno. Al enviar el formulario, se realiza una solicitud AJAX a <code>index.php</code> para almacenar la información en la base de datos.
+        </p>
+
+        <h3>Ver Asistencia por Grupo</h3>
+        <p>
+            La página <code>ver_asistencia.html</code> permite a los usuarios ingresar un grupo y visualizar la lista de alumnos presentes en ese grupo. Se realiza una solicitud AJAX para obtener la lista de estudiantes y sus estados de asistencia.
+        </p>
+
+        <h3>Generación de PDF</h3>
+        <p>
+            Desde <code>ver_asistencia.html</code>, los usuarios pueden descargar un PDF con la lista de asistencia generada a partir de la tabla visible en la página.
+        </p>
+
+        <h3>Buscar por Código de Alumno</h3>
+        <p>
+            La página <code>buscar_por_codigo.html</code> permite a los usuarios ingresar un código de alumno para buscar su información específica. Se realiza una solicitud AJAX a <code>index.php</code> y muestra el nombre completo, carrera y logros obtenidos del alumno correspondiente.
+        </p>
+
+        <h3>Presentador</h3>
+        <p>
+            En la página <code>presentador.html</code>, se ha implementado websockets para permitir la comunicación en tiempo real sobre la asistencia de los alumnos. Esto mejora la interactividad y la respuesta inmediata al estado de asistencia.
+        </p>
+
+        <h2>Cambios Realizados en las Páginas</h2>
+        <ul>
+            <li>Se implementaron websockets en <code>presentador.html</code> para permitir actualizaciones en tiempo real sobre la asistencia.</li>
+            <li>Se mejoró la interfaz de usuario de todas las páginas para hacerla más intuitiva y accesible.</li>
+            <li>Se optimizaron las solicitudes AJAX para mejorar el rendimiento y la velocidad de respuesta.</li>
+        </ul>
+
+        <h2>Tecnologías Utilizadas</h2>
+        <ul>
+            <li><strong>Frontend:</strong>
+                <ul>
+                    <li>HTML5</li>
+                    <li>CSS3</li>
+                    <li>JavaScript</li>
+                </ul>
+            </li>
+            <li><strong>Backend:</strong>
+                <ul>
+                    <li>PHP</li>
+                    <li>MySQL (o base de datos similar)</li>
+                    <li>Websockets (Ratchet o Swoole)</li>
+                </ul>
+            </li>
+            <li><strong>Frameworks:</strong>
+                <ul>
+                    <li>bootstrap-5.3.3-dist</li>
+
+                </ul>
+            </li>
+        </ul>
+
+        <h2>Mantenimiento</h2>
+        <p>
+            Asegúrate de mantener la base de datos actualizada con los nuevos alumnos y sus asistencias. Revisa periódicamente el código para realizar mejoras y asegurar su correcto funcionamiento. Además, verifica el funcionamiento de los websockets para garantizar una comunicación fluida.
+        </p>
+
+        <h2>Posibles Problemas y Soluciones</h2>
+        <h3>Problemas de Conexión a la Base de Datos</h3>
+        <p>
+            Si encuentras errores al intentar conectar a la base de datos, asegúrate de que:
+            <ul>
+                <li>El servidor de base de datos está en funcionamiento.</li>
+                <li>Las credenciales de la base de datos en <code>index.php</code> son correctas.</li>
+                <li>La base de datos y las tablas necesarias han sido creadas.</li>
+            </ul>
+        </p>
+
+        <h3>Problemas con Websockets</h3>
+        <p>
+            Si los websockets no funcionan como se espera, verifica lo siguiente:
+            <ul>
+                <li>La extensión de websockets está instalada y habilitada en tu servidor PHP.</li>
+                <li>El servidor de websockets está en funcionamiento y escuchando en el puerto correcto.</li>
+                <li>No hay bloqueos de firewall que impidan las conexiones a los websockets.</li>
+            </ul>
+        </p>
+
+        <h3>Problemas con las Solicitudes AJAX</h3>
+        <p>
+            Si las solicitudes AJAX no funcionan:
+            <ul>
+                <li>Verifica la consola del navegador para ver si hay errores de JavaScript.</li>
+                <li>Asegúrate de que las rutas a los archivos PHP sean correctas.</li>
+                <li>Revisa el código PHP para detectar errores de sintaxis o lógica.</li>
+            </ul>
+        </p>
+
+        <h2>Contribuciones</h2>
+        <p>
+            Las contribuciones son bienvenidas. Si deseas colaborar en el desarrollo del proyecto, por favor abre un issue o envía un pull request.
+        </p>
+
+
+    </div>
+
+    <!-- Scripts de Bootstrap local -->
+    <script src="bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

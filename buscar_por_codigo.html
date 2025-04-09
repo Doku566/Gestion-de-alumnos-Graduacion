@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar por Código</title>
+    <!-- Bootstrap CSS local -->
+    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #8B0000;
+            color: white;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .input-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #950b0b;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        .input-container input {
+            width: 250px;
+            margin-right: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+        }
+        .result-card {
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            max-width: 600px;
+        }
+        .result-card img {
+            max-width: 100px;
+            margin-right: 20px;
+        }
+        .result-card h2, .result-card p {
+            color: black;
+        }
+        .not-found {
+            color: #dc3545;
+            font-size: 18px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn-primary {
+            background-color: #FFD700;
+            border: none;
+        }
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #A70000;
+            background-color: #f8d7da;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .icono {
+            max-width: 50px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Buscar Estudiante por Código</h1>
+    <div class="input-container">
+        <input type="text" id="codigo" class="form-control" placeholder="Ingrese el código" autofocus>
+    </div>
+    
+    <div class="logo-container">
+        <img src="img/logo-utbis-318x100-1.png" alt="Logo de la Universidad" style="max-width: 200px; margin-bottom: 20px;">
+    </div>
+    
+    <div id="resultado" class="result-card" style="display: none;">
+        <img src="img/Lions-Nov22.png" alt="Logo Secundario">
+        <div>
+            <h2 id="mensaje-correcto" style="display: none;">Felicidades Graduado! Has sido dado de alta de manera correcta.</h2>
+            <h2 id="mensaje-error" style="display: none;">Upps! No has sido dado de alta correctamente. Ve directo a soporte para verificar nuevamente.</h2>
+            <p id="nombre"><strong>Nombre:</strong> </p>
+            <p id="carrera"><strong>Carrera:</strong> </p>
+            <img id="icono-exito" class="icono" src="img/Correcto.png" alt="Palomita Verde" style="display: none;">
+            <img id="icono-error" class="icono" src="img/Incorrecto.png" alt="Tacha Roja" style="display: none;">
+        </div>
+    </div>
+
+    <div class="not-found" id="no-encontrado" style="display: none;"></div>
+
+    <footer>
+        <p>Todos los derechos reservados &copy; Domingo González Hernández</p>
+    </footer>
+
+    <script src="jquery/jquery-3.5.1.slim.min.js"></script>
+    <script src="popper/popper.min.js"></script>
+    <script>
+        let typingTimer; // Temporizador para retrasar la búsqueda
+        const delay = 500; // Retardo de 500 ms
+
+        // Función para buscar automáticamente
+        document.getElementById('codigo').addEventListener('input', function () {
+            clearTimeout(typingTimer); // Reinicia el temporizador si el usuario sigue escribiendo
+            typingTimer = setTimeout(buscarPorCodigo, delay); // Llama a la función después del retardo
+        });
+
+        async function buscarPorCodigo() {
+            const codigoInput = document.getElementById('codigo');
+            const codigo = codigoInput.value.trim();
+
+            if (codigo) {
+                const response = await fetch(`index.php?buscar_codigo=${encodeURIComponent(codigo)}`);
+                const estudiante = await response.json();
+
+                const resultadoDiv = document.getElementById('resultado');
+                const iconoExito = document.getElementById('icono-exito');
+                const mensajeExito = document.getElementById('mensaje-correcto');
+                const mensajeError = document.getElementById('mensaje-error');
+                const iconoError = document.getElementById('icono-error');
+
+                resultadoDiv.style.display = 'none';
+                iconoExito.style.display = 'none';
+                mensajeExito.style.display = 'none';
+                mensajeError.style.display = 'none';
+                iconoError.style.display = 'none';
+
+                document.getElementById('nombre').innerHTML = `<strong>Nombre:</strong> `;
+                document.getElementById('carrera').innerHTML = `<strong>Carrera:</strong> `;
+
+                if (estudiante) {
+                    document.getElementById('nombre').innerHTML = `<strong>Nombre:</strong> ${estudiante.nombre_completo}`;
+                    document.getElementById('carrera').innerHTML = `<strong>Carrera:</strong> ${estudiante.carrera}`;
+                    iconoExito.style.display = 'block';
+                    mensajeExito.style.display = 'block';
+                } else {
+                    iconoError.style.display = 'block';
+                    mensajeError.style.display = 'block';
+                }
+
+                resultadoDiv.style.display = 'flex';
+                codigoInput.value = ''; // Limpia el campo de búsqueda
+            }
+        }
+    </script>
+</body>
+</html>

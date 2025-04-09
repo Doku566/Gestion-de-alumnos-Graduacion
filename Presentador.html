@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentador - Escaneo de Estudiantes</title>
+    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #8B0000;
+            color: white;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .result-card {
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            max-width: 800px;
+        }
+        .result-card img {
+            max-width: 120px;
+            margin-right: 20px;
+        }
+        .result-card h2 {
+            color: black;
+            font-size: 36px;
+        }
+        .result-card p {
+            font-size: 28px;
+            margin: 5px 0;
+            color: black;
+        }
+        .not-found {
+            color: #dc3545;
+            font-size: 28px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn-primary {
+            background-color: #FFD700;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #FFC107;
+        }
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #A70000;
+            background-color: #f8d7da;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logo-container">
+        <img src="img/logo-utbis-318x100-1.png" alt="Logo de la Universidad" style="max-width: 200px; margin-bottom: 20px;">
+    </div>
+
+    <div id="resultado" class="result-card" style="display: none;">
+        <img src="img/Lions-Nov22.png" alt="Logo Secundario">
+        <div>
+            <p id="nombre"><strong>Nombre:</strong> </p>
+            <p id="carrera"><strong>Carrera:</strong> </p>
+        </div>
+    </div>
+
+    <div class="not-found" id="no-encontrado" style="display: none;"></div>
+
+
+
+    <script src="bootstrap-5.3.3-dist/js/bootstrap.min.js"></script>
+
+    <script>
+        function actualizarResultado(estudiante) {
+            const resultadoDiv = document.getElementById('resultado');
+            const noEncontradoDiv = document.getElementById('no-encontrado');
+
+            resultadoDiv.style.display = 'none';
+            noEncontradoDiv.style.display = 'none';
+
+            if (estudiante && estudiante.nombre_completo) {
+                document.getElementById('nombre').innerHTML = `<strong>Nombre:</strong> ${estudiante.nombre_completo}`;
+                document.getElementById('carrera').innerHTML = `<strong>Carrera:</strong> ${estudiante.carrera}`;
+                resultadoDiv.style.display = 'flex';
+            } else {
+                noEncontradoDiv.innerHTML = 'No se encontró el estudiante.';
+                noEncontradoDiv.style.display = 'block';
+            }
+        }
+
+        async function buscarPorCodigo(codigo) {
+            if (codigo.length === 4) {
+                const response = await fetch(`index.php?buscar_codigo=${encodeURIComponent(codigo)}`);
+                const estudiante = await response.json();
+                actualizarResultado(estudiante);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.id = 'codigo';
+            input.style.position = 'absolute';
+            input.style.opacity = '0';
+            document.body.appendChild(input);
+
+            input.focus();
+
+            input.addEventListener('input', function (e) {
+                const codigo = e.target.value;
+                if (codigo.length === 4) {
+                    buscarPorCodigo(codigo);
+                    e.target.value = '';
+                }
+            });
+
+            input.addEventListener('focusout', () => input.focus());
+            
+            // Realiza la consulta al servidor cada 5 segundos
+            setInterval(async () => {
+                const response = await fetch('index.php?accion=actualizar'); // Asegúrate de que este endpoint devuelva los datos necesarios
+                const estudiante = await response.json();
+                if (estudiante && estudiante.codigo) {
+                    actualizarResultado(estudiante);
+                }
+            }, 5000); // Intervalo de actualización en milisegundos
+        });
+    </script>
+</body>
+</html>
