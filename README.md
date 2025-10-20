@@ -144,14 +144,6 @@ Desde `presentador.html`, los cambios de asistencia se reflejan en tiempo real g
 - Verifica el código PHP en busca de errores.
 
 ---
-
-## 🤝 Contribuciones
-
-¡Las contribuciones son bienvenidas!  
-Si deseas colaborar:
-1. Abre un **Issue**.
-2. Envía un **Pull Request** con tus mejoras.
-
----
+Aqui se encuentra un Demo Visual de como es  https://doku566.github.io/Gestion-de-alumnos-Graduacion/
 
 
